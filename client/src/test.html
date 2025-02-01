@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Test</title>
+  <!-- Include the Socket.IO client library -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Socket.IO WebSocket Connection Test</h1>
+  <p id="status">Connecting...</p>
+  <button id="sendMessageBtn">Send Message to Server</button>
+
+  <script>
+    // Connect to the Socket.IO server running on localhost:3001
+    const socket = io('http://localhost:3001');
+
+    // When connected, update the status message
+    socket.on('connect', () => {
+      document.getElementById('status').textContent = 'Connected to server!';
+    });
+
+    // Handle any messages from the server
+    socket.on('message', (data) => {
+      console.log('Message from server:', data);
+      // You can display it on the page if you want
+      alert(`Received from server: ${data}`);
+    });
+
+    // Send a message to the server when the button is clicked
+    document.getElementById('sendMessageBtn').addEventListener('click', () => {
+      socket.emit('clientMessage', 'Hello from client!');
+    });
+
+    // Handle server disconnection
+    socket.on('disconnect', () => {
+      document.getElementById('status').textContent = 'Disconnected from server.';
+    });
+  </script>
+</body>
+</html>

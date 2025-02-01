@@ -1,0 +1,94 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+import { BatteryFull, Car, MapPin, ShieldCheck } from "lucide-react";
+import { TelemetryData, VehicleSummaryItem } from "@/types/interface";
+import { tableColumnDefs } from "@/types/types";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+function aggregateData(data: { [key: string]: TelemetryData } | TelemetryData) {
+  const {
+    totalSpeed,
+    totalBattery,
+    totalDistance,
+    normalHealthCount,
+    errorHealthCount,
+  } = Object.values(data).reduce(
+    (acc, { speed, battery, distanceTraveled, vehicleHealth }) => {
+      acc.totalSpeed += speed;
+      acc.totalBattery += battery;
+      acc.totalDistance += distanceTraveled;
+      if (vehicleHealth === "normal") acc.normalHealthCount++;
+      if (vehicleHealth === "error") acc.errorHealthCount++;
+      return acc;
+    },
+    {
+      totalSpeed: 0,
+      totalBattery: 0,
+      totalDistance: 0,
+      normalHealthCount: 0,
+      errorHealthCount: 0,
+    }
+  );
+
+  const vehicleCount = Object.keys(data).length;
+  return {
+    avgSpeed: (totalSpeed / vehicleCount).toFixed(2),
+    avgBattery: (totalBattery / vehicleCount).toFixed(2),
+    totalDistance: totalDistance.toFixed(2),
+    normalHealthCount,
+    errorHealthCount,
+  };
+}
+
+export function getStatisticsOfAllVehicles(
+  vehicleData: { [key: string]: TelemetryData } | TelemetryData
+): VehicleSummaryItem[] {
+  const summaryData = aggregateData(vehicleData);
+  const vehicleStatistics = [
+    {
+      label: "Avg Speed",
+      value: `${summaryData.avgSpeed} km/h`,
+      icon: Car,
+      color: "text-blue-500",
+    },
+    {
+      label: "Avg Battery",
+      value: `${summaryData.avgBattery} %`,
+      icon: BatteryFull,
+      color: "text-green-500",
+    },
+    {
+      label: "Total Distance",
+      value: `${summaryData.totalDistance} km`,
+      icon: MapPin,
+      color: "text-gray-500",
+    },
+    {
+      label: "Normal Health",
+      value: summaryData.normalHealthCount,
+      icon: ShieldCheck,
+      color: "text-gray-500",
+    },
+    {
+      label: "Error Health",
+      value: summaryData.errorHealthCount,
+      icon: ShieldCheck,
+      color: "text-gray-500",
+    },
+  ];
+  return vehicleStatistics;
+}
+
+export function getTableData(vehicleData: TelemetryData | { [key: string]: TelemetryData }): tableColumnDefs[] {
+  return Object.values(vehicleData).map(vehicle => ({
+    vehicleId: vehicle.vehicleId,
+    speed: vehicle.speed,
+    battery: vehicle.battery,
+    distanceTraveled: vehicle.distanceTraveled,
+    vehicleHealth: vehicle.vehicleHealth
+  }));
+}
