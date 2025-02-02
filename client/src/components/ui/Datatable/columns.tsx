@@ -46,6 +46,7 @@ export const columns: ColumnDef<TableColumnDefs>[] = [
       );
     },
     cell: ({ getValue }) => formatNumberWithUnit(getValue() as number, "km"),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: "speed",
@@ -62,11 +63,11 @@ export const columns: ColumnDef<TableColumnDefs>[] = [
       );
     },
     cell: ({ getValue }) => formatNumberWithUnit(getValue() as number, "km/h"),
+    enableGlobalFilter: false,
   },
   {
     accessorKey: "status",
     header: "Vehicle Status",
     cell: ({ getValue }) => formatHealthStatus(getValue() as string),
-    enableGlobalFilter: false,
   },
 ];

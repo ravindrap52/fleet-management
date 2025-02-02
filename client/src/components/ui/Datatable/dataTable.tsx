@@ -53,9 +53,11 @@ export function DataTable<TData, TValue>({
     <>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter by Speed and Distance"
-          value={table.getState().globalFilter || ""}
-          onChange={(e) => table.setGlobalFilter(String(e.target.value))}
+          placeholder="Filter by Status"
+          value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("status")?.setFilterValue(event.target.value)
+          }
           className="max-w-sm"
         />
       </div>
