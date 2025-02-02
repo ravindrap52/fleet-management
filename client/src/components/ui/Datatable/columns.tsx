@@ -37,6 +37,7 @@ export const columns: ColumnDef<TableColumnDefs>[] = [
       return (
         <Button
           variant="ghost"
+          className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Distance <span style={{ fontSize: "0.75rem" }}>km</span>
@@ -52,6 +53,7 @@ export const columns: ColumnDef<TableColumnDefs>[] = [
       return (
         <Button
           variant="ghost"
+          className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Speed <span style={{ fontSize: "0.75rem" }}>km/h</span>

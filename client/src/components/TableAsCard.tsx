@@ -13,7 +13,7 @@ export default function TableAsCard<TData extends TableColumnDefs>({
     }
   };
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 h-[400px] overflow-auto">
       {data.map((item, index) => (
         <div
           key={index}

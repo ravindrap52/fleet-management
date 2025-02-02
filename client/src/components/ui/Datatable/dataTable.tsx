@@ -59,7 +59,7 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -93,6 +93,7 @@ export function DataTable<TData, TValue>({
                           <Button
                             variant="link"
                             onClick={() => handleRowClick(row.original)}
+                            className="pl-0"
                           >
                             {flexRender(
                               cell.column.columnDef.cell,

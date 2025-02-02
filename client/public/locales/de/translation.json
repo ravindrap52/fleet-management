@@ -1,3 +1,4 @@
 {
-   "hello": "world" 
+  "offlineTitle": "Oh nein! Sie sind offline",
+  "offlineMessage": "Sie sehen die zwischengespeicherten Daten"
 }

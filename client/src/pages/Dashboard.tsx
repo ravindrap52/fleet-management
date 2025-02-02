@@ -92,7 +92,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1">
-        <div className="overflow-auto bg-white dark:bg-gray-800 p-4 border rounded shadow">
+        <div className="overflow-hidden bg-white dark:bg-gray-800 p-4 border rounded shadow flex-1">
           {/* loading data table with vehicles list */}
           <div className="hidden lg:block">
             <DataTable
@@ -109,7 +109,7 @@ export default function Dashboard() {
         </div>
 
         {/* loading map with vehicle data */}
-        <div className="h-[500px] border">
+        <div className="h-[500px] lg:h-[700px] border">
           <Map vehicles={vehicleData} />
         </div>
       </div>

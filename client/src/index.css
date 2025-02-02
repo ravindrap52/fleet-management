@@ -73,3 +73,34 @@
     @apply border-border;
   }
 }
+::-webkit-scrollbar {
+  width: 3px; /* Thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b0b0b0; /* Medium gray thumb */
+  border-radius: 4px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888; /* Darker thumb on hover */
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: #111827;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #111827;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #111827;
+  }
+}
