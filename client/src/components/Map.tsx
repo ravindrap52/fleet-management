@@ -10,14 +10,14 @@ export default function Map({ vehicles }: {vehicles: TelemetryData | { [key: str
   useEffect(() => {
     if (!mapRef.current) return;
 
-    // Initialize map only once (when the component mounts)
+    // initializing map with berlin coordinates
     const map = L.map(mapRef.current, {
       center: [52.52, 13.405],
       zoom: 13,
       scrollWheelZoom: false,
     });
 
-    // Store map instance in the ref
+    // storing map in a ref, so that it will not reload for every rerender
     mapInstanceRef.current = map;
 
     // Add a tile layer (using OpenStreetMap as an example)
@@ -29,22 +29,29 @@ export default function Map({ vehicles }: {vehicles: TelemetryData | { [key: str
     return () => {
       map.remove();
     };
-  }, []); // Empty dependency array ensures map is created only once
+  }, []);
 
   useEffect(() => {
-    if (!mapInstanceRef.current) return; // Check if map instance exists
+    if (!mapInstanceRef.current) return;
 
-    // Update markers when vehicles data changes
-    markersRef.current.forEach(marker => marker.remove()); // Remove old markers
-    markersRef.current = []; // Clear markersRef
+    const bounds = new L.LatLngBounds(
+      new L.LatLng(52.52, 13.405),  // north-east
+      new L.LatLng(52.52, 13.405) // south-west
+    );
+    
 
+    // when data changes updating the markers
+    markersRef.current.forEach(marker => marker.remove());
+    markersRef.current = [];
     Object.values(vehicles).forEach((vehicle) => {
       const { vehicleId, lat, lan, speed } = vehicle;
-      const marker = L.marker([lat, lan]).addTo(mapInstanceRef.current!); // Add to map instance
+      const marker = L.marker([lat, lan]).addTo(mapInstanceRef.current!);
       marker.bindPopup(`<b>Vehicle ${vehicleId}</b><br>Speed: ${speed.toFixed(2)} km/h`);
-      markersRef.current.push(marker); // Store the new marker in the ref
+      markersRef.current.push(marker);
+      bounds.extend(marker.getLatLng());
     });
-  }, [vehicles]); // Re-run this effect only when `vehicles` change
+    mapInstanceRef.current.fitBounds(bounds, { animate: true, duration: 1, easeLinearity: 1.5 });
+  }, [vehicles]);
 
-  return <div ref={mapRef} className='h-[500px] border' />;
+  return <div ref={mapRef} className='h-full border' />;
 };

@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 import { BatteryFull, CircleGauge, MapPin, ShieldCheck } from "lucide-react";
 import { TelemetryData, VehicleSummaryItem } from "@/types/interface";
-import { tableColumnDefs } from "@/types/types";
+import { TableColumnDefs } from "@/types/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -83,13 +83,14 @@ export function getStatisticsOfAllVehicles(
 
 export function getTableData(
   vehicleData: TelemetryData | { [key: string]: TelemetryData }
-): tableColumnDefs[] {
+): TableColumnDefs[] {
   return Object.values(vehicleData).map((vehicle) => ({
     vehicleId: vehicle.vehicleId,
     speed: vehicle.speed,
     battery: vehicle.battery,
     distanceTraveled: vehicle.distanceTraveled,
     vehicleHealth: vehicle.vehicleHealth,
+    status: vehicle.status
   }));
 }
 

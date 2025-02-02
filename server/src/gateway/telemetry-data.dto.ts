@@ -10,6 +10,11 @@ export class TelemetryDataDTO {
   motorPower: number;
   regenBraking: boolean;
   distanceTraveled: number;
+  timeSinceLastMaintenance: number;
+  energyConsumption: number;
+  distanceToNextChargingStation: number;
+  status: string;
+  batteryHealth: number;
   vehicleHealth: string;
   timestamp: string;
 }

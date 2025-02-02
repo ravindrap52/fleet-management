@@ -4,4 +4,4 @@ export type Notifications = {
   messages: AppNotification[];
 };
 
-export type tableColumnDefs = Pick<TelemetryData, "vehicleId" | "speed" | "battery" | "distanceTraveled" | "vehicleHealth">;
+export type TableColumnDefs = Pick<TelemetryData, "vehicleId" | "speed" | "battery" | "distanceTraveled" | "vehicleHealth" | "status">;

@@ -27,6 +27,11 @@
     --scrollbar-thumb: #d1d5db;
     --scrollbar-track: #f9fafb;
     --radius: 0.5rem;
+    --status-active: #10b981;
+    --status-idle: #f59e0b;
+    --status-charging: #34D399;
+    --status-maintenance: #fb923c;
+    --status-off: #9ca3af;
   }
 
   .dark {
@@ -53,6 +58,11 @@
     --scrollbar-thumb: #4b5563;
     --scrollbar-track: #1f2937;
     --radius: 0.5rem;
+    --status-active: #10b981;
+    --status-idle: #f59e0b;
+    --status-charging: #34D399;
+    --status-maintenance: #fb923c;
+    --status-off: #9ca3af;
   }
 
   body {

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -20,15 +19,14 @@ import {
 } from "@/components/ui/table";
 
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+import { DataTableProps } from "@/types/interface";
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onRowClick,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -46,6 +44,11 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
+  const handleRowClick = (rowData: TData) => {
+    if (onRowClick) {
+      onRowClick(rowData);
+    }
+  };
   return (
     <>
       <div className="flex items-center py-4">
@@ -83,14 +86,32 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    if (cell.column.id === "vehicleId") {
+                      return (
+                        <TableCell key={cell.id}>
+                          <Button
+                            variant="link"
+                            onClick={() => handleRowClick(row.original)}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </Button>
+                        </TableCell>
+                      );
+                    } else {
+                      return (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    }
+                  })}
                 </TableRow>
               ))
             ) : (

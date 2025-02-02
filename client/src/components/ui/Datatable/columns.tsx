@@ -1,27 +1,21 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-import { tableColumnDefs } from "@/types/types";
+import { TableColumnDefs } from "@/types/types";
 import { formatNumberWithUnit } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 
 // don't move it to util because we are reurning html tag
 const formatHealthStatus = (value: string) => {
-  const statusClasses = value === "normal"
-    ? "text-green-500 capitalize"
-    : value === "error"
-    ? "text-red-500 capitalize"
-    : "text-gray-500";
-
-  return (
-    <span className={statusClasses}>
+return (
+    <span className={`text-sm capitalize pt-1 text-[var(--status-${value})]`}>
       {value}
     </span>
   );
 };
 
-export const columns: ColumnDef<tableColumnDefs>[] = [
+export const columns: ColumnDef<TableColumnDefs>[] = [
   {
     accessorKey: "vehicleId",
     header: "Vehicle ID",
@@ -68,8 +62,8 @@ export const columns: ColumnDef<tableColumnDefs>[] = [
     cell: ({ getValue }) => formatNumberWithUnit(getValue() as number, "km/h"),
   },
   {
-    accessorKey: "vehicleHealth",
-    header: "Health",
+    accessorKey: "status",
+    header: "Vehicle Status",
     cell: ({ getValue }) => formatHealthStatus(getValue() as string),
     enableGlobalFilter: false,
   },

@@ -1,3 +1,5 @@
+import { ColumnDef } from "@tanstack/react-table";
+
 export interface ThemeState {
   theme: string;
 }
@@ -20,6 +22,11 @@ export interface TelemetryData {
   distanceTraveled: number;
   vehicleHealth: string;
   timestamp: string;
+  timeSinceLastMaintenance: number;
+  energyConsumption: number;
+  distanceToNextChargingStation: number;
+  status: string;
+  batteryHealth: number;
 }
 
 export interface VehicleSummaryItem {
@@ -27,4 +34,22 @@ export interface VehicleSummaryItem {
   value: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color: string;
+}
+
+export interface VehicleDetailsProps {
+  vehicleId: string;
+  isDialogOpen: boolean;
+  setIsDialogOpen:(open: boolean) => void;
+  vehicles: TelemetryData | { [key: string]: TelemetryData }
+}
+
+export interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  onRowClick?: (rowData: TData) => void;
+}
+
+export interface TableAsCardProps<TData> {
+  data: TData[];
+  onRowClick?: (rowData: TData) => void;
 }

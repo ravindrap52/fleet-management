@@ -1,6 +1,6 @@
 export default function DashboardSkeleton() {
     return (
-      <main className="p-4 flex-1 flex flex-col w-full h-[90vh]" style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
+      <main className="flex-1 flex flex-col w-full h-[90vh]" style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, index) => (
             <div
@@ -101,10 +101,10 @@ export default function DashboardSkeleton() {
   
           <div
             id="map"
-            className="h-96 bg-background rounded shadow"
+            className="h-full bg-background rounded shadow"
             style={{ backgroundColor: 'var(--background)' }}
           >
-            <div className="h-[74.5vh] flex justify-center items-center text-center" style={{ backgroundColor: 'var(--border)' }}>
+            <div className="h-full flex justify-center items-center text-center" style={{ backgroundColor: 'var(--border)' }}>
               <span className="text-sm text-primary-foreground">Loading map...</span>
             </div>
           </div>

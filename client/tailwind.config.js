@@ -40,5 +40,12 @@ export default {
       },
     },
   },
+  safelist: [
+    'text-[var(--status-active)]',
+    'text-[var(--status-idle)]',
+    'text-[var(--status-charging)]',
+    'text-[var(--status-maintenance)]',
+    'text-[var(--status-off)]',
+  ],
   plugins: [require("tailwindcss-animate")],
 };

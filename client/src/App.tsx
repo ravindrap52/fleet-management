@@ -7,7 +7,7 @@ import Dashboard from "@/pages/Dashboard";
 
 export default function App() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       <Header>
         <p className="text-xl font-bold">Fleet Management</p>
         <div className="flex items-center gap-4">
