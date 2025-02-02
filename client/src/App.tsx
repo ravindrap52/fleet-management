@@ -7,15 +7,15 @@ import Dashboard from "@/pages/Dashboard";
 
 export default function App() {
   return (
-    <div className="grid grid-rows-[4rem_minmax(500px,1fr)_2rem] h-screen gap-2">
+    <div className="flex flex-col h-screen">
       <Header>
-        <p>Fleet Management</p>
-        <div className="flex items-center gap-2">
+        <p className="text-xl font-bold">Fleet Management</p>
+        <div className="flex items-center gap-4">
           <Notifications />
           <ThemeSwitcher />
         </div>
       </Header>
-      <main>
+      <main className="p-4 flex-1 flex flex-col w-full gap-4">
         <Dashboard />
       </main>
       <Footer />

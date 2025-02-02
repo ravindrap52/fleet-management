@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/Datatable/dataTable";
 import { columns } from "@/components/ui/Datatable/columns";
 import Map from "@/components/Map";
+import DashboardSkeleton from "@/components/ui/DashboardSkeleton";
+import VehicleSummary from "@/components/VehicleSummary";
 
 import useNetworkStatus from "@/hooks/useNetworkStatus";
 import useIndexedDB from "@/hooks/useIndexedDB";
@@ -14,18 +15,27 @@ import { getStatisticsOfAllVehicles, getTableData } from "@/lib/utils";
 import { TelemetryData, VehicleSummaryItem } from "@/types/interface";
 
 export default function Dashboard() {
+  // hook to detect when user went offline
   const isOnline = useNetworkStatus();
+
+  // indexedB hook to push the data when user went offline
   const { getDataFromIndexedDB } = useIndexedDB();
-  
-  const { isLoading, data: liveData, isError } = useSubscribeToTelemetryDataQuery<{
+
+  // hook to subscribe to the telemetry data
+  const { data: liveData, isError } = useSubscribeToTelemetryDataQuery<{
     [vehicleId: string]: TelemetryData;
   }>({});
-  const [offlineData, setOfflineData] = useState<{ [key: string]: TelemetryData }>({});
-  
+
+  // internal state to set the offline data
+  const [offlineData, setOfflineData] = useState<{
+    [key: string]: TelemetryData;
+  }>({});
+
   // Fetch data from IndexedDB when offline
   useEffect(() => {
     if (!isOnline) {
       const fetchData = async () => {
+        // getting data from indexed db
         const storedData = await getDataFromIndexedDB();
         if (storedData) {
           setOfflineData(storedData);
@@ -36,76 +46,85 @@ export default function Dashboard() {
     }
   }, [isOnline, getDataFromIndexedDB]);
 
+  // storing vehicle data, either livedata or data from indexeddb
   const vehicleData = isOnline ? liveData : offlineData;
 
-  if (isLoading) {
-    return <div>Loading telemetry data...</div>;
-  }
-
+  // showing error message when error occured while subscribing to the websocket
   if (isError) {
     return <div>Error occurred while fetching data!</div>;
   }
 
+  // showing loading skeleton while data is loading
   if (!vehicleData || Object.keys(vehicleData).length === 0) {
-    return <div>No vehicle data available.</div>;
+    return <DashboardSkeleton />;
   }
 
   // Prepare a summary for all vehicles
   const allVehicleSummaries: VehicleSummaryItem[] =
     getStatisticsOfAllVehicles(vehicleData);
-    
+
+  // fetching data for the table
   const tableData = getTableData(vehicleData);
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Display all vehicle summaries collectively */}
-        {allVehicleSummaries.map((item, index) => (
-          <Card
-            key={index}
-            className="bg-[var(--card-bg)] shadow-md rounded-lg p-4"
-          >
-            <CardContent className="flex items-center gap-4">
-              <item.icon className={`${item.color} w-16 h-16`} />
-              <div>
-                <p className="text-sm text-[var(--foreground)]">{item.label}</p>
-                <p className="text-lg font-bold text-[var(--foreground)]">
-                  {item.value}
+        <VehicleSummary vehicleSummaries={allVehicleSummaries} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1">
+        <div className="overflow-auto bg-white dark:bg-gray-800 p-4 border rounded shadow">
+          <div className="hidden lg:block">
+            <DataTable columns={columns} data={tableData} />
+          </div>
+
+          <div className="lg:hidden">
+            <div className="space-y-4">
+              <div className="rounded-xl border bg-card text-card-foreground shadow">
+                <div className="flex flex-col space-y-1.5 p-4">
+                  <div className="font-semibold leading-none tracking-tight">
+                    Team Members
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    Invite your team members to collaborate.
+                  </div>
+                </div>
+                <div className="p-4 pt-0 grid gap-6">
+                  <div className="flex items-center justify-between space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <p className="relative flex shrink-0 text-sm font-semibold">
+                        Status:
+                      </p>
+                      <p className="text-sm font-medium leading-none">
+                        Offline
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 bg-white dark:bg-gray-700 rounded-lg shadow">
+                <p className="font-bold text-lg">V002</p>
+                <p>
+                  <strong>Status:</strong> Offline
+                </p>
+                <p>
+                  <strong>Battery:</strong> 60%
+                </p>
+                <p>
+                  <strong>Speed:</strong> 0 km/h
+                </p>
+                <p>
+                  <strong>Location:</strong> Los Angeles
                 </p>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-        <div className="rounded-xl border bg-card text-card-foreground shadow">
-          <div className="p-6 flex flex-row items-center justify-between space-y-0 pb-2">
-            <div className="tracking-tight text-sm font-medium">
-              Total Revenue
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-            </svg>
-          </div>
-          <div className="p-6 pt-0">
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">
-              +20.1% from last month
-            </p>
           </div>
         </div>
-      </div>
-      <div className="flex justify-between pl-4 pr-4 gap-4">
-        <div className="flex-1 border">
-          <DataTable columns={columns} data={tableData} />
-        </div>
-        <div className="flex-1 border">
+
+        <div
+          className="h-full border"
+        >
           <Map vehicles={vehicleData} />
         </div>
       </div>

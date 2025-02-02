@@ -46,5 +46,5 @@ export default function Map({ vehicles }: {vehicles: TelemetryData | { [key: str
     });
   }, [vehicles]); // Re-run this effect only when `vehicles` change
 
-  return <div ref={mapRef} style={{ width: '100%', height: '50vh' }} />;
+  return <div ref={mapRef} className='h-[500px] border' />;
 };

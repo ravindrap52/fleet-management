@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { BatteryFull, Car, MapPin, ShieldCheck } from "lucide-react";
+import { BatteryFull, CircleGauge, MapPin, ShieldCheck } from "lucide-react";
 import { TelemetryData, VehicleSummaryItem } from "@/types/interface";
 import { tableColumnDefs } from "@/types/types";
 
@@ -52,43 +52,51 @@ export function getStatisticsOfAllVehicles(
     {
       label: "Avg Speed",
       value: `${summaryData.avgSpeed} km/h`,
-      icon: Car,
-      color: "text-blue-500",
+      icon: CircleGauge,
+      color: `${
+        Number(summaryData.avgBattery) > 100 ? "text-red-500" : "text-green-500"
+      }`,
     },
     {
       label: "Avg Battery",
       value: `${summaryData.avgBattery} %`,
       icon: BatteryFull,
-      color: "text-green-500",
+      color: `${
+        Number(summaryData.avgBattery) < 50 ? "text-red-500" : "text-green-500"
+      }`,
     },
     {
       label: "Total Distance",
       value: `${summaryData.totalDistance} km`,
       icon: MapPin,
-      color: "text-gray-500",
+      color: "text-muted-foreground",
     },
     {
       label: "Normal Health",
       value: summaryData.normalHealthCount,
       icon: ShieldCheck,
-      color: "text-gray-500",
-    },
-    {
-      label: "Error Health",
-      value: summaryData.errorHealthCount,
-      icon: ShieldCheck,
-      color: "text-gray-500",
+      color: "text-muted-foreground",
     },
   ];
   return vehicleStatistics;
 }
 
-export function getTableData(vehicleData: TelemetryData | { [key: string]: TelemetryData }): tableColumnDefs[] {
-  return Object.values(vehicleData).map(vehicle => ({
+export function getTableData(
+  vehicleData: TelemetryData | { [key: string]: TelemetryData }
+): tableColumnDefs[] {
+  return Object.values(vehicleData).map((vehicle) => ({
     vehicleId: vehicle.vehicleId,
     speed: vehicle.speed,
     battery: vehicle.battery,
     distanceTraveled: vehicle.distanceTraveled,
-    vehicleHealth: vehicle.vehicleHealth
+    vehicleHealth: vehicle.vehicleHealth,
   }));
 }
+
+export function formatNumberWithUnit(value: number, unit: string) {
+  return `${value.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })} ${unit}`;
+}
+

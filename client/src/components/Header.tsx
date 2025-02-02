@@ -6,7 +6,7 @@ export default function Header({
   children: ReactNode | ReactNode[];
 }) {
   return (
-    <header className="flex justify-between items-center px-6 bg-background border-b border-border shadow-md dark:shadow-lg">
+    <header className="flex justify-between items-center px-6 h-16 bg-background border-b border-border shadow-md dark:shadow-lg">
       {children}
     </header>
   );

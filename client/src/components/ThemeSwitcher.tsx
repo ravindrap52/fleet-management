@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { RootState } from "@/store";
 import { toggleAppTheme } from "@/features/theme/themeSlice";
 
-import Moon from "@/components/ui/Moon";
-import Sun from "@/components/ui/Sun";
+import { Sun, Moon } from "lucide-react";
 
 export default function ThemeSwitcher() {
   // selecting the default theme from the state
@@ -26,8 +25,8 @@ export default function ThemeSwitcher() {
   }
   return (
     <div className="flex">
-      <Button variant="ghost" size="icon" onClick={toggleTheme}>
-        {theme === "light" ? <Sun /> : <Moon />}
+      <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="clcik to toggle the color theme, from dark to light or viceversa">
+        {theme === "light" ? <Sun size={24} aria-label="sun icon" /> : <Moon size={24} aria-label="moon icon" />}
       </Button>
     </div>
   );
