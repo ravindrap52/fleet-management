@@ -9,6 +9,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// this function will aggregate and return the object
 function aggregateData(data: { [key: string]: TelemetryData } | TelemetryData) {
   const {
     totalSpeed,
@@ -44,6 +45,7 @@ function aggregateData(data: { [key: string]: TelemetryData } | TelemetryData) {
   };
 }
 
+// getting stats for all the vehicles
 export function getStatisticsOfAllVehicles(
   vehicleData: { [key: string]: TelemetryData } | TelemetryData
 ): VehicleSummaryItem[] {
@@ -81,6 +83,7 @@ export function getStatisticsOfAllVehicles(
   return vehicleStatistics;
 }
 
+// function to get table data
 export function getTableData(
   vehicleData: TelemetryData | { [key: string]: TelemetryData }
 ): TableColumnDefs[] {
@@ -94,6 +97,7 @@ export function getTableData(
   }));
 }
 
+// formatting the numbe with unit
 export function formatNumberWithUnit(value: number, unit: string) {
   return `${value.toLocaleString(undefined, {
     minimumFractionDigits: 2,

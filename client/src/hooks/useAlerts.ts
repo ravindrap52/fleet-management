@@ -74,7 +74,7 @@ export default function useAlerts(
             );
             toast({
               variant: "destructive",
-              description: translatedMessage,
+              description: `Vehicle ${vehicleId}: ${translatedMessage} (Status: ${value})`,
             });
           }
         });

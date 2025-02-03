@@ -32,13 +32,15 @@ export default function NotificationPanel({
         className="min-w-[200px]  border border-[var(--border)] 
                    bg-[var(--card-bg)] text-[var(--foreground)] shadow-[var(--box-shadow)] z-[1000]"
       >
-        {alerts.map((message) => (
+        {alerts.map((message, index) => (
           <DropdownMenuItem className={`w-full cursor-pointer px-4 py-2 whitespace-normal break-words leading-relaxed 
             hover:bg-[var(--hover)] 
             ${message.type === "critical" ? "text-[var(--status-maintenance)]" : ""}
             ${message.type === "warning" ? "text-[var(--status-idle)]" : ""}
             ${message.type === "error" ? "text-[var(--status-off)]" : ""}
-          `}>
+          `}
+          key={index}
+          >
             {message.message}
           </DropdownMenuItem>
         ))}

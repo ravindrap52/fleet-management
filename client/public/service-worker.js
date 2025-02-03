@@ -9,8 +9,8 @@ self.addEventListener("install", (event) => {
       const cacheFiles = [
         "/",
         "/index.html",
-        "/marker-icon.png",
-        "/marker-shadow.png",
+        "dist/marker-icon.png",
+        "dist/marker-shadow.png",
         ...manifest.files // Dynamically cache JS & CSS files
       ];
 

@@ -2,7 +2,7 @@ import { OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { TelemetryDataDTO } from './telemetry-data.dto';
-import { numberOfVehicles } from 'src/constants';
+import { numberOfVehicles } from '../constants';
 
 @WebSocketGateway({
   cors: {
@@ -71,7 +71,7 @@ export class MyGateway implements OnModuleInit, OnModuleDestroy {
     return newSpeed;
   }
 
-  private startTelemetryDataUpdates() {
+  public startTelemetryDataUpdates() {
     const emitTelemetryData = () => {
       const allTelemetryData: Record<string, TelemetryDataDTO> = {};
 
