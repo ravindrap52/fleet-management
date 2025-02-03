@@ -6,6 +6,9 @@ export interface ThemeState {
 
 export interface AppNotification {
   message: string;
+  id: string;
+  type: "info" | "warning" | "critical" | "error";
+  timeStamp: string;
 }
 
 export interface TelemetryData {
@@ -52,4 +55,12 @@ export interface DataTableProps<TData, TValue> {
 export interface TableAsCardProps<TData> {
   data: TData[];
   onRowClick?: (rowData: TData) => void;
+}
+
+export interface AlertsConfig {
+  threshold?: number;
+  errorValues?: string[];
+  message: string;
+  type: "info" | "warning" | "critical" | "error";
+  symbol?: string;
 }

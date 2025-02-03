@@ -1,4 +1,7 @@
 {
   "offlineTitle": "Oh nein! Sie sind offline",
-  "offlineMessage": "Sie sehen die zwischengespeicherten Daten"
+  "offlineMessage": "Sie sehen die zwischengespeicherten Daten",
+  "lowBattery": "Niedriger Batteriestand",
+  "highTemperature": "Hohe Temperatur",
+  "vehicleHealthIssue": "Fahrzeugproblem"
 }

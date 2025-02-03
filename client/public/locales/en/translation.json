@@ -1,4 +1,7 @@
 {
-    "offlineTitle": "Uh oh! You are offline",
-    "offlineMessage": "You are seeing the cached datrra"
+  "offlineTitle": "Uh oh! You are offline",
+  "offlineMessage": "You are seeing the cached data",
+  "lowBattery": "Low battery",
+  "highTemperature": "High temperature",
+  "vehicleHealthIssue": "Vehicle health issue"
 }

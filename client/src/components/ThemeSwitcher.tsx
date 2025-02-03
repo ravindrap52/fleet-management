@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Sun, Moon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { RootState } from "@/store";
+
 import { toggleAppTheme } from "@/features/theme/themeSlice";
 
-import { Sun, Moon } from "lucide-react";
+import { RootState } from "@/store";
+
 
 export default function ThemeSwitcher() {
   // selecting the default theme from the state

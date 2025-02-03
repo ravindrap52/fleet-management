@@ -9,6 +9,7 @@ import TableAscard from "@/components/TableAsCard";
 
 import useNetworkStatus from "@/hooks/useNetworkStatus";
 import useIndexedDB from "@/hooks/useIndexedDB";
+import useAlerts from "@/hooks/useAlerts";
 
 import { useSubscribeToTelemetryDataQuery } from "@/features/websocket";
 
@@ -67,6 +68,9 @@ export default function Dashboard() {
     setSelectedVehicleId(slectedVehicle.vehicleId);
     setIsDialogOpen(true);
   }, []);
+
+  // calling the alerts hook
+  useAlerts(vehicleData);
 
   // showing error message when error occured while subscribing to the websocket
   if (isError) {
