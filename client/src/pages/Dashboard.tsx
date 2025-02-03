@@ -13,8 +13,11 @@ import useAlerts from "@/hooks/useAlerts";
 
 import { useSubscribeToTelemetryDataQuery } from "@/features/websocket";
 
+// import { getStatisticsOfAllVehicles, getTableData, getVehicleStatusInPercentages } from "@/lib/utils";
 import { getStatisticsOfAllVehicles, getTableData } from "@/lib/utils";
 import { TelemetryData, VehicleSummaryItem } from "@/types/interface";
+// import { TelemetryData, VehicleStatusPercentages, VehicleSummaryItem } from "@/types/interface";
+// import PieChart from "@/components/pieChart";
 
 // lazy loading the component when user selects the vehicle
 const VehicleDetails = React.lazy(() => import("@/pages/VehicleDetails"));
@@ -88,11 +91,15 @@ export default function Dashboard() {
 
   // fetching data for the table
   const tableData = getTableData(vehicleData);
+
+  // const vehicleStatusInPercentages: VehicleStatusPercentages = getVehicleStatusInPercentages(vehicleData);
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Display all vehicle summaries collectively */}
         <VehicleSummary vehicleSummaries={allVehicleSummaries} />
+        {/* <PieChart vehicleData={vehicleStatusInPercentages} /> */}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1">

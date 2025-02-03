@@ -5,3 +5,5 @@ export type Notifications = {
 };
 
 export type TableColumnDefs = Pick<TelemetryData, "vehicleId" | "speed" | "battery" | "distanceTraveled" | "vehicleHealth" | "status">;
+
+export type VehicleStatusPercentages = (string| number)[];

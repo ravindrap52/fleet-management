@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 import { BatteryFull, CircleGauge, MapPin, ShieldCheck } from "lucide-react";
 import { TelemetryData, VehicleSummaryItem } from "@/types/interface";
-import { TableColumnDefs } from "@/types/types";
+import { TableColumnDefs, VehicleStatusPercentages } from "@/types/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -105,3 +105,24 @@ export function formatNumberWithUnit(value: number, unit: string) {
   })} ${unit}`;
 }
 
+export function getVehicleStatusInPercentages(vehicleData: { [key: string]: TelemetryData } | TelemetryData): VehicleStatusPercentages {
+  const { active, idle, maintenance, total } = Object.values(vehicleData).reduce(
+    (acc, record) => {
+      if (record.status === 'active') acc.active++;
+      else if (record.status === 'idle') acc.idle++;
+      else if (record.status === 'maintenance') acc.maintenance++;
+
+      acc.total++;
+
+      return acc;
+    },
+    { active: 0, idle: 0, maintenance: 0, total: 0 }
+  );
+
+  // calculating percentages
+  const activePercentage = total > 0 ? ((active / total) * 100).toFixed(2) : 0;
+  const idlePercentage = total > 0 ? ((idle / total) * 100).toFixed(2) : 0;
+  const maintenancePercentage = total > 0 ? ((maintenance / total) * 100).toFixed(2) : 0;
+
+  return [activePercentage, idlePercentage, maintenancePercentage];
+}
